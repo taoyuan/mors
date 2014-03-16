@@ -5,7 +5,6 @@ var chai = require('chai');
 chai.Assertion.includeStack = true;
 var mqtt = require('mqtt');
 var merge = require('utils-merge');
-var __slice = Array.prototype.slice;
 
 exports.t = chai.assert;
 
@@ -68,7 +67,12 @@ exports.buildClient = function buildClient(port, host, opts, callback) {
         callback = opts;
         opts = null;
     }
-    opts = opts || exports.buildOpts();
+    if (typeof port === 'object') {
+        opts = port;
+        port = opts.port;
+        host = opts.host;
+    }
+    opts = merge(exports.buildOpts(), opts);
 
     var client = mqtt.createClient(port, host, opts);
 

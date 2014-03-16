@@ -1,6 +1,7 @@
 "use strict";
 
 var mors = require('../')
+    , h = require('./helpers')
     , s = require('./support')
     , t = s.t;
 
@@ -17,7 +18,7 @@ describe('mors', function () {
     });
 
     afterEach(function (done) {
-        app.close(done);
+        server.close(done);
     });
 
     it("should emit ready event on listen successful", function (done) {
@@ -33,9 +34,8 @@ describe('mors', function () {
         };
 
         var app = mors();
-        app.listen(newSettings);
-        app.on('ready', function () {
-            app.close(done);
+        app.listen(newSettings, function (err, server) {
+            server.close(done);
         });
     });
 
@@ -60,21 +60,10 @@ describe('mors', function () {
         });
     });
 
-    it("should respond using publish to client", function (done) {
-        var d = s.plan(3, done);
+    it("should publish ack to client", function (done) {
+        var d = s.plan(2, done);
 
-        app.route('/foo/:id/bar', function (id) {
-            t.equal(id, 123);
-            t.ok(this.server);
-            t.ok(this.client);
-            t.ok(this.packet);
-            t.equal(this.packet.payload, 'hello');
-            this.server.publish({
-                topic: '/foo/' + id + '/bar/ack',
-                payload: 'hello ' + id
-            }, this.client);
-            d();
-        });
+        app.route('/foo/:id/bar', h.handlers.handleWithId);
 
         s.buildClient(settings.port, settings.host, function (client) {
             client.once('error', d);
@@ -82,7 +71,7 @@ describe('mors', function () {
 
             client.subscribe('/foo/123/bar/ack');
             client.on('message', function (topic, message) {
-                t.equal(message, 'hello 123');
+                t.equal(message, h.messages.messageWithId(123));
                 client.end();
                 d();
             });
@@ -91,4 +80,5 @@ describe('mors', function () {
 
         });
     });
+
 });

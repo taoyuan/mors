@@ -1,15 +1,12 @@
 "use strict";
 
-var mors = require('../..');
+var mors = require('../');
 var path = require('path');
 
 
 exports.handlers = {
     handleWithId: function (id) {
-        this.client.server.publish({
-            topic: path.join(this.packet.topic, 'ack'),
-            payload: 'hello from (' + id + ')'
-        });
+        this.publish(path.join(this.packet.topic, 'ack'), exports.messages.messageWithId(id));
     },
     handleWithData: function () {
 //        this.res.writeHead(200, { 'Content-Type': 'application/json' })
@@ -20,5 +17,11 @@ exports.handlers = {
 //            this.res.writeHead(200);
 //            this.res.end('ok');
 //        };
+    }
+};
+
+exports.messages = {
+    messageWithId: function (id) {
+        return 'hello from (' + id + ')';
     }
 };
