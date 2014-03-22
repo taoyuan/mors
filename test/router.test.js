@@ -1,7 +1,7 @@
 "use strict";
 
-var mors = require('../')
-var s = require('./support')
+var mors = require('../');
+var s = require('./support');
 var t = s.t;
 var helpers = require('./helpers');
 var handlers = helpers.handlers;
@@ -37,10 +37,10 @@ describe("mors/router", function () {
             router.dispatch(client, {topic: '/foo'});
         });
 
-        it('should be .use()able', function (done){
+        it('should be .attach()able', function (done){
             var router = new mors.Router();
 
-            router.use(function () {
+            router.attach(function () {
                 this.foo = 'hello';
             });
 
@@ -63,6 +63,16 @@ describe("mors/router", function () {
             });
 
             router.dispatch({}, { topic: '/foo/123/bar/baz' });
+        });
+
+        it("should handle all '*' topic", function (done) {
+            var router = new mors.Router();
+
+            router.route('*', function () {
+                t.equal('/foo', this.packet.topic);
+                done();
+            });
+            router.dispatch({}, {topic: '/foo'});
         });
     });
 
