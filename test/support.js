@@ -17,7 +17,7 @@ exports.plan = function (count, done) {
     };
 };
 
-var portCounter = 9042;
+var portCounter = 9142;
 exports.nextPort = function() {
     return ++portCounter;
 };
