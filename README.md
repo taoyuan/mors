@@ -64,7 +64,7 @@ with `opts`:
 
 ```js
 app.route('*', function () {
-	this.publish(this.packet.topic, this.packet.payload, {
+	this.publish("hello/there/world", "a message", {
 		qos: 0, // 0, 1, or 2
   		retain: false // or true
   	});
@@ -75,7 +75,7 @@ or without `opts`:
 
 ```js
 app.route('*', function () {
-	this.publish(this.packet.topic, this.packet.payload);
+	this.publish("hello/there/world", "a message");
 });
 ```
 
@@ -112,3 +112,12 @@ Generally, the `this` object bound to route handlers, will contain the client in
 ```
 
 This API may be used to attach convenience methods to the `this` context of route handlers.
+
+# More Information
+
+* [mosca](http://github.com/mcollina/mosca) The multi-transport MQTT broker for node.js. It supports AMQP, Redis, MongoDB, ZeroMQ or just MQTT.
+* [director](http://github.com/flatiron/director) A tiny and isomorphic URL router for JavaScript.
+
+# License
+
+MIT
