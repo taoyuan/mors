@@ -1,6 +1,6 @@
 {
   "name": "mors",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Express inspired \"Client-Server\" framework using mqtt protocol for node.js",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/taoyuan/mors",
   "dependencies": {
-    "mosca": "^0.17.4",
+    "mosca": "^0.18.0",
     "director": "^1.2.3",
     "utils-merge": "^1.0.0"
   },

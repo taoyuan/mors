@@ -58,7 +58,7 @@ describe("mors/router", function () {
 
             router.route('/foo/:id/bar/*', function(id) {
                 t.equal(id, '123');
-                t.equal(this.packet.topic, '/foo/123/bar/baz');
+                t.equal(this.topic, '/foo/123/bar/baz');
                 done();
             });
 
@@ -69,7 +69,7 @@ describe("mors/router", function () {
             var router = new mors.Router();
 
             router.route('*', function () {
-                t.equal('/foo', this.packet.topic);
+                t.equal('/foo', this.topic);
                 done();
             });
             router.dispatch({}, {topic: '/foo'});

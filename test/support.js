@@ -2,7 +2,7 @@
 
 var mors = require('../');
 var chai = require('chai');
-chai.Assertion.includeStack = true;
+chai.config.includeStack = true;
 var mqtt = require('mqtt');
 var merge = require('utils-merge');
 

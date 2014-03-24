@@ -42,13 +42,15 @@ describe('mors', function () {
     it("should route when client publish", function (done) {
         var d = s.plan(2, done);
 
+        var message = {"data": "hello"};
+
         app.route('/foo/:fooId/bar/:barId', function (fooId, barId) {
             t.equal(fooId, 123);
             t.equal(barId, 456);
             t.ok(this.server);
             t.ok(this.client);
             t.ok(this.packet);
-            t.equal(this.packet.payload, 'hello');
+            t.deepEqual(JSON.parse(this.message), message);
             d();
         });
 
@@ -56,7 +58,7 @@ describe('mors', function () {
             client.once('error', d);
             client.once('close', d);
 
-            client.publish('/foo/123/bar/456', 'hello');
+            client.publish('/foo/123/bar/456', JSON.stringify(message));
             client.end();
         });
     });
