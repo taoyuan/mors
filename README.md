@@ -108,7 +108,6 @@ Generally, the `context` object passed to route handlers, will contain [basic](#
 
   // Access properties attached to `this` in your routes!
   app.get('/presence', function (context) {
-  
     // The mesage to send will be 'hello xxx' if the message received is 'xxx'
     context.publish('/presence', context.greeting + ' ' + context.packet.payload);
   });
