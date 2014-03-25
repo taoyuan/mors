@@ -86,7 +86,7 @@ or just broadcast the packet received:
 
 ```js
 app.route('*', function (context) {
-	context.publish(this.packet);
+	context.publish(context.packet);
 });
 ```
 
@@ -100,19 +100,19 @@ Generally, the `context` object passed to route handlers, will contain [basic](#
 
   var app = mors();
 
-  // Attach properties to `this`
+  // Attach properties to `context`
   app.attach(function (context) {
     context.greeting = 'hello';
   });
 
-  // Access properties attached to `this` in your routes!
+  // Access properties attached to `context` in your routes!
   app.get('/presence', function (context) {
     // The mesage to send will be 'hello xxx' if the message received is 'xxx'
     context.publish('/presence', context.greeting + ' ' + context.packet.payload);
   });
 ```
 
-This API may be used to attach convenience methods to the `this` context of route handlers.
+This API may be used to attach convenience methods to the `context` of route handlers.
 
 # More Information
 
