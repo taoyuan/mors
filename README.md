@@ -22,19 +22,20 @@ app.attach(function () {
 });
 
 // route to mesasge for '/hello/me'
-mors.route('/hello/me', function(){
-	console.log(this.foo); // will output 'hello'
-	console.log('received', this.packet.topic, this.packet.payload);
+mors.route('/hello/me', function(c){
+	console.log(c.foo); // will output 'hello'
+	console.log('received', c.topic, c.message);
 });
 
 // route to mesasge for '/hello/you'
-mors.route('/hello/you', function(){
-	console.log('received', this.packet.topic, this.packet.payload);
+mors.route('/hello/you', function(c){
+	console.log('received', c.topic, c.message);
 });
 
 // route to mesasge for '/some/:person/you' with a named param for that token
-mors.route('/some/:person/you', function(person){
-	console.log('received', this.packet.topic, this.packet.payload);
+mors.route('/some/:person/you', function(c){
+    console.log(c.params.person);
+	console.log('received', c.topic, c.message);
 });
 
 // linsten on 1883
