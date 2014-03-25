@@ -17,8 +17,8 @@ var app = Mors();
 
 // Ask the router to attach objects or manipulate `this` object on which the
 // function passed to the router will get applied
-app.attach(function () {
-	this.foo = 'hello';
+app.attach(function (c) {
+	c.foo = 'hello';
 });
 
 // route to mesasge for '/hello/me'
