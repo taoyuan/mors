@@ -6,25 +6,15 @@ var t = s.t;
 var helpers = require('./helpers');
 var handlers = helpers.handlers;
 
-describe("mors/router", function () {
-    
-    it("should have the correct routes defined", function () {
-        var router = new mors.Router({
-            '/hello': {
-                on: handlers.handleWithId
-            }
-        });
-        t.isObject(router.routes.hello);
-        t.isFunction(router.routes.hello.on);
-    });
-    
+describe.only("mors/router", function () {
+
     describe("#dispatch", function () {
 
         it("should dispatch", function (done) {
             var router = new mors.Router();
 
-            router.route('/foo', function () {
-                this.client.send('foo');
+            router.route('/foo', function (c) {
+                c.client.send('foo');
             });
 
             var client = {
@@ -40,12 +30,12 @@ describe("mors/router", function () {
         it('should be .attach()able', function (done){
             var router = new mors.Router();
 
-            router.attach(function () {
-                this.foo = 'hello';
+            router.attach(function (c) {
+                c.foo = 'hello';
             });
 
-            router.route('/foo', function () {
-                t.equal(this.foo, 'hello');
+            router.route('/foo', function (c) {
+                t.equal(c.foo, 'hello');
                 done();
             });
 
@@ -56,9 +46,9 @@ describe("mors/router", function () {
         it('should parse and pass params to handler', function(done) {
             var router = new mors.Router();
 
-            router.route('/foo/:id/bar/*', function(id) {
-                t.equal(id, '123');
-                t.equal(this.topic, '/foo/123/bar/baz');
+            router.route('/foo/:id/bar/*', function(c) {
+                t.equal(c.params.id, '123');
+                t.equal(c.topic, '/foo/123/bar/baz');
                 done();
             });
 
@@ -68,8 +58,8 @@ describe("mors/router", function () {
         it("should handle all '*' topic", function (done) {
             var router = new mors.Router();
 
-            router.route('*', function () {
-                t.equal('/foo', this.topic);
+            router.route('*', function (c) {
+                t.equal('/foo', c.topic);
                 done();
             });
             router.dispatch({}, {topic: '/foo'});

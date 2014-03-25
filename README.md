@@ -44,17 +44,19 @@ app.listen(1883);
 # API Documentation
 
 * [Constructor](#constructor)
-* [Internal Properties of `this`](#internal-properties-of-this)
-* [Attach Properties to `this`](#attach-to-this)
+* [Basic Properties of `context`](#basic-properties-of-context)
+* [Attach Properties to `context`](#attach-to-context)
 
 <a name="constructor"/>
 ## Constructor
+
 ```js
 var app = Mors();
 ```
 
-<a name="internal-properties-of-this"/>
-## Internal Properties of `this`
+<a name="basic-properties-of-context"/>
+## Basic Properties of `context`
+
 * `server` The mosca server.
 * `client` The client object in mosca.
 * `packet` The packet published from client.
@@ -63,8 +65,8 @@ var app = Mors();
 with `opts`:
 
 ```js
-app.route('*', function () {
-	this.publish("hello/there/world", "a message", {
+app.route('*', function (context) {
+	context.publish("hello/there/world", "a message", {
 		qos: 0, // 0, 1, or 2
   		retain: false // or true
   	});
@@ -74,23 +76,23 @@ app.route('*', function () {
 or without `opts`:
 
 ```js
-app.route('*', function () {
-	this.publish("hello/there/world", "a message");
+app.route('*', function (context) {
+	context.publish("hello/there/world", "a message");
 });
 ```
 
 or just broadcast the packet received:
 
 ```js
-app.route('*', function () {
-	this.publish(this.packet);
+app.route('*', function (context) {
+	context.publish(this.packet);
 });
 ```
 
-<a name="attach-to-this"/>
-## Attach Properties to `this`
+<a name="attach-to-context"/>
+## Attach Properties to `context`
 
-Generally, the `this` object bound to route handlers, will contain the client in `this.client` and the server in `this.server`. One may attach additional properties to `this` with the `app.attach` method:
+Generally, the `context` object passed to route handlers, will contain [basic](#basic-properties-of-context) properties. One may attach additional properties to `context` with the `app.attach` method:
 
 ```js
   var Mors = require('mors');
@@ -98,16 +100,16 @@ Generally, the `this` object bound to route handlers, will contain the client in
   var app = mors();
 
   // Attach properties to `this`
-  app.attach(function () {
-    this.greeting = 'hello';
+  app.attach(function (context) {
+    context.greeting = 'hello';
   });
 
 
   // Access properties attached to `this` in your routes!
-  app.get('/presence', function () {
+  app.get('/presence', function (context) {
   
     // The mesage to send will be 'hello xxx' if the message received is 'xxx'
-    this.publish('/presence', this.greeting + ' ' + this.packet.payload);
+    context.publish('/presence', context.greeting + ' ' + context.packet.payload);
   });
 ```
 
@@ -116,7 +118,7 @@ This API may be used to attach convenience methods to the `this` context of rout
 # More Information
 
 * [mosca](http://github.com/mcollina/mosca) The multi-transport MQTT broker for node.js. It supports AMQP, Redis, MongoDB, ZeroMQ or just MQTT.
-* [director](http://github.com/flatiron/director) A tiny and isomorphic URL router for JavaScript.
+* [routes](http://github.com/aaronblohowiak/routes.js) a minimalist url-style routing library, extracted from connect.
 
 # License
 
