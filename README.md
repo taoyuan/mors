@@ -58,9 +58,10 @@ var app = Mors();
 <a name="basic-properties-of-context"/>
 ## Basic Properties of `context`
 
+* `packet` The packet published from client.
+* `params` The parameters parsed from `topic`.
 * `server` The mosca server.
 * `client` The client object in mosca.
-* `packet` The packet published from client.
 * `publish` The publish function used to publish messages from route handler with 4 arguments: (topic, message, opts, callback). For example:
 
 with `opts`:
