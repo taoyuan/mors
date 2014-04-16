@@ -1,6 +1,6 @@
 {
   "name": "mors",
-  "version": "0.0.7-1",
+  "version": "0.0.8",
   "description": "Express inspired \"Client-Server\" framework using mqtt protocol for node.js",
   "main": "index.js",
   "scripts": {
