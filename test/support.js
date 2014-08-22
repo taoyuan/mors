@@ -8,6 +8,8 @@ var _ = require('lodash');
 
 exports.t = chai.assert;
 
+exports.noop = function () {};
+
 exports.donner =  function donner(n, func) {
     if (n < 1) {
         return func();
