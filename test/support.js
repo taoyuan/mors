@@ -4,15 +4,17 @@ var mors = require('../');
 var chai = require('chai');
 chai.config.includeStack = true;
 var mqtt = require('mqtt');
-var merge = require('utils-merge');
+var _ = require('lodash');
 
 exports.t = chai.assert;
 
-exports.plan = function (count, done) {
-    return function() {
-        count--;
-        if (count === 0) {
-            done();
+exports.donner =  function donner(n, func) {
+    if (n < 1) {
+        return func();
+    }
+    return function(err) {
+        if (--n < 1) {
+            func(err ? err : null);
         }
     };
 };
@@ -22,6 +24,21 @@ exports.nextPort = function() {
     return ++portCounter;
 };
 
+exports.setup = function (settings) {
+    return function (done) {
+        var test = this;
+        var app = test.app = mors();
+        var settings = test.settings = exports.buildSettings(settings);
+        test.server = app.listen(settings, done);
+    }
+};
+
+exports.teardown = function () {
+    return function (done) {
+        if (this.server) return this.server.close(done);
+        done();
+    }
+};
 
 exports.createServer = function (settings, router) {
     var app = mors();
@@ -35,48 +52,57 @@ exports.createServer = function (settings, router) {
 };
 
 exports.buildSettings = function (settings) {
-    return merge({
+    return _.defaults(settings || {}, {
         port: exports.nextPort()
-    }, settings);
+    });
 };
 
-exports.buildOpts = function() {
+function buildOpts() {
     return {
         keepalive: 1000,
         clientId: 'mors_' + require("crypto").randomBytes(8).toString('hex'),
-        protocolId: 'MQIsdp',
-        protocolVersion: 3
+        protocolId: 'MQIsdp'
     };
-};
+}
 
 /**
  *
  * (port, host, opts, callback)
  */
-exports.buildClient = function buildClient(port, host, opts, callback) {
-    if (typeof port === 'function') {
-        callback = port;
-        port = null;
-        host = null;
-        opts = null;
-    } else if (typeof host === 'function') {
-        callback = host;
-        host = null;
-        opts = null;
-    } else if (typeof opts === 'function') {
+exports.buildClient = function buildClient(done, server, opts, callback) {
+    if (typeof done !== 'function') {
         callback = opts;
-        opts = null;
+        opts = server;
+        server = done;
+        done = null;
     }
-    if (typeof port === 'object') {
-        opts = port;
-        port = opts.port;
-        host = opts.host;
+    if (typeof opts === 'function') {
+        callback = opts;
+        opts = {};
     }
-    opts = merge(exports.buildOpts(), opts);
 
-    var client = mqtt.createClient(port, host, opts);
+    opts = _.defaults(opts, buildOpts());
+
+    var client = mqtt.createClient(server.opts.port, opts);
+
+    function end(err) {
+        done(err ? err : null);
+    }
+    if (done) {
+        client.on('error', end);
+        client.on('close', end);
+    }
 
     client.on("connect", function() {
-        callback(client);
+        callback && callback(client);
     });
+
+    return client;
 };
+
+var bunyan = require("bunyan");
+
+exports.globalLogger = bunyan.createLogger({
+    name: "moscaTests",
+    level: 60
+});

@@ -1,6 +1,6 @@
 {
   "name": "mors",
-  "version": "0.0.8",
+  "version": "0.1.0",
   "description": "Express inspired \"Client-Server\" framework using mqtt protocol for node.js",
   "main": "index.js",
   "scripts": {
@@ -17,16 +17,18 @@
   },
   "homepage": "https://github.com/taoyuan/mors",
   "dependencies": {
-    "director": "^1.2.3",
-    "logs": "0.0.5",
-    "mosca": "^0.18.0",
-    "routes": "^0.2.0",
+    "debug": "^1.0.4",
+    "depd": "^0.4.4",
+    "lodash": "^2.4.1",
+    "mosca": "^0.24.0",
+    "routes": "^1.2.0",
     "utils-merge": "^1.0.0"
   },
   "devDependencies": {
-    "chai": "^1.9.0",
-    "mocha": "^1.17.1",
-    "mqtt": "^0.3.7",
-    "crypto": "0.0.3"
+    "bunyan": "^1.0.0",
+    "chai": "^1.9.1",
+    "crypto": "^0.0.3",
+    "mocha": "^1.21.4",
+    "mqtt": "^0.3.11"
   }
 }
