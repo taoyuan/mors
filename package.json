@@ -1,7 +1,7 @@
 {
   "name": "mors",
   "version": "0.1.0",
-  "description": "Express inspired \"Client-Server\" framework using mqtt protocol for node.js",
+  "description": "Express inspired mqtt development framework based on [mosca](https://github.com/mcollina/mosca) for [node](nodejs.org).",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/*.test.js"
@@ -16,13 +16,18 @@
     "url": "https://github.com/taoyuan/mors/issues"
   },
   "homepage": "https://github.com/taoyuan/mors",
+  "keywords": [
+    "mqtt",
+    "rpc",
+    "mosca",
+    "express"
+  ],
   "dependencies": {
     "debug": "^1.0.4",
     "depd": "^0.4.4",
     "lodash": "^2.4.1",
     "mosca": "^0.24.0",
-    "routes": "^1.2.0",
-    "utils-merge": "^1.0.0"
+    "routes": "^1.2.0"
   },
   "devDependencies": {
     "bunyan": "^1.0.0",
