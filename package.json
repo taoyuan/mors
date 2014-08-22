@@ -18,7 +18,6 @@
   "homepage": "https://github.com/taoyuan/mors",
   "keywords": [
     "mqtt",
-    "rpc",
     "mosca",
     "express"
   ],

@@ -40,9 +40,6 @@ _(Coming soon)_
 ## Middleware
 _(Coming soon)_
 
-## RPC
-_(Coming soon)_
-
 ## Links
 
 * [Mosca](http://github.com/mcollina/mosca)
