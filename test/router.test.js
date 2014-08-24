@@ -1,7 +1,7 @@
 "use strict";
 
 var mors = require('../');
-var request = require('./morstest');
+var mocks = require('./mocks');
 var s = require('./support');
 var t = s.t;
 
@@ -20,12 +20,10 @@ describe("router", function () {
                 d();
             });
 
-            request(router)
-                .topic('/foo')
-                .publish(function (err) {
-                    t.notOk(err);
-                    d();
-                });
+            publish(router, '/foo', function (err) {
+                t.notOk(err);
+                d();
+            });
 
         });
 
@@ -45,12 +43,10 @@ describe("router", function () {
                 d();
             });
 
-            request(router)
-                .topic('/foo')
-                .publish(function (err) {
-                    t.notOk(err);
-                    d();
-                });
+            publish(router, '/foo', function (err) {
+                t.notOk(err);
+                d();
+            });
         });
 
         it('should sequence', function (done) {
@@ -72,29 +68,25 @@ describe("router", function () {
                 next();
             });
 
-            request(router)
-                .topic('/foo/bar')
-                .publish(function (err) {
-                    t.notOk(err);
-                    done();
-                });
+            publish(router, '/foo/bar', function (err) {
+                t.notOk(err);
+                done();
+            });
         });
 
-        it('should parse and pass params to handler', function(done) {
+        it('should parse and pass params to handler', function (done) {
             var router = new mors.Router();
 
-            router.route('/foo/:id/bar/*', function(req, res) {
+            router.route('/foo/:id/bar/*', function (req, res) {
                 t.equal(req.params.id, '123');
                 t.equal(req.topic, '/foo/123/bar/baz');
                 req.next();
             });
 
-            request(router)
-                .topic('/foo/123/bar/baz' )
-                .publish(function (err) {
-                    t.notOk(err);
-                    done();
-                });
+            publish(router, '/foo/123/bar/baz', function (err) {
+                t.notOk(err);
+                done();
+            });
         });
 
         it("should handle all '*' topic", function (done) {
@@ -104,13 +96,29 @@ describe("router", function () {
                 t.equal('/foo/123/bar/baz', req.topic);
                 req.next();
             });
-            request(router)
-                .topic('/foo/123/bar/baz' )
-                .publish(function (err) {
-                    t.notOk(err);
-                    done();
-                });
+            publish(router, '/foo/123/bar/baz', function (err) {
+                t.notOk(err);
+                done();
+            });
         });
     });
 
 });
+
+function publish(router, topic, message, opts, cb) {
+    if (typeof opts === 'function') {
+        cb = opts;
+        opts = null;
+    } else if (typeof message === 'object') {
+        cb = opts;
+        opts = message;
+        message = undefined;
+    } else if (typeof message === 'function') {
+        cb = message;
+        opts = undefined;
+        message = undefined;
+    }
+    message = message || '';
+    var client = mocks.client();
+    router.handle(mors.Request(client, s.buildPacket(topic, message, opts)), mors.Response(client), cb);
+}

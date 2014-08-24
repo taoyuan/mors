@@ -102,6 +102,17 @@ exports.buildClient = function buildClient(done, server, opts, callback) {
     return client;
 };
 
+exports.buildPacket = function (topic, message, opts) {
+    if (typeof message === 'object') {
+        opts = message;
+        message = undefined;
+    }
+    return _.defaults({
+        topic: topic,
+        payload: message
+    }, opts);
+};
+
 var bunyan = require("bunyan");
 
 exports.globalLogger = bunyan.createLogger({
