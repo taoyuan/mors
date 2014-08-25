@@ -9,7 +9,7 @@ Mors
 var mors = require('mors')
 var app = mors()
 
-app.route('/', function (req, res) {
+app.route('*', function (req, res) {
   console.log('received', req.topic, req.payload);
 });
 
@@ -53,7 +53,7 @@ Check if setting `name` is enabled.
 Check if setting `name` is disabled.
 
 ### app.use([path], function)
-Use the given middleware `function` (with optional mount path, defaulting to "/").
+Use the given middleware `function` (with optional mount path, defaulting to "*").
 
 ```js
 var mors = require('mors');
@@ -67,7 +67,7 @@ app.use(function(req, res, next){
 
 // respond
 app.use(function(req, res, next){
-  res.publish(req.topic + '/reply', 'Hello World');
+  res.publish(req.topic + '$reply', 'Hello World');
 });
 
 app.listen(9191);
@@ -110,7 +110,7 @@ More information: [routes.js](http://github.com/aaronblohowiak/routes.js)
 The currently matched Route containing several properties (such as the route's path string, the params, and so on).
 
 ```js
-app.get('/user/:id?', function(req, res){
+app.get('$user/:id?', function(req, res){
   console.log(req.route);
 });
 ```
@@ -123,7 +123,7 @@ Example output from the previous snippet:
 		id: '1'
 	},
 	splats: [],
-	path: '/user/:id'
+	path: '$user/:id'
 }
 ```
 
@@ -159,17 +159,17 @@ Set response `retain`
 Publish a response
 
 ```js
-res.topic('/foo/reply').payload('hello').publish();
-res.topic('/foo/reply').payload('hello').publish(cb);
-res.topic('/foo/reply').publish('hello');
-res.topic('/foo/reply').publish('hello', cb);
-res.publish('/foo/reply', 'hello');
-res.publish('/foo/reply', 'hello', cb);
+res.topic('$foo/reply').payload('hello').publish();
+res.topic('$foo/reply').payload('hello').publish(cb);
+res.topic('$foo/reply').publish('hello');
+res.topic('$foo/reply').publish('hello', cb);
+res.publish('$foo/reply', 'hello');
+res.publish('$foo/reply', 'hello', cb);
 ```
 
 ## Router
 ### router.use([path], function)
-Use the given middleware `function`, with optional mount `path`, defaulting to "/".
+Use the given middleware `function`, with optional mount `path`, defaulting to "*".
 
 Middleware is like a plumbing pipe, requests start at the first middleware you define and work their way "down" the middleware stack processing for each path they match.
 
