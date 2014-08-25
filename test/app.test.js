@@ -48,7 +48,7 @@ describe('app', function () {
 
                 t.ok(req.client);
                 t.ok(req.packet);
-                t.equal(req.topic, '/foo');
+                t.equal(req.topic, '$foo');
                 t.equal(req.payload, 'hello');
 
                 t.ok(res.client);
@@ -57,7 +57,7 @@ describe('app', function () {
             });
 
             s.buildClient(d, this.server, function (client) {
-                client.publish('/foo', 'hello');
+                client.publish('$foo', 'hello');
                 client.end();
             });
         });
@@ -74,7 +74,7 @@ describe('app', function () {
 
             var message = {"data": "hello"};
 
-            this.app.route('/foo/:fooId/bar/:barId', function (req, res) {
+            this.app.route('$foo/:fooId/bar/:barId', function (req, res) {
                 var params = req.params;
                 t.equal(params.fooId, 123);
                 t.equal(params.barId, 456);
@@ -83,7 +83,7 @@ describe('app', function () {
             });
 
             s.buildClient(d, this.server, function (client) {
-                client.publish('/foo/123/bar/456', JSON.stringify(message));
+                client.publish('$foo/123/bar/456', JSON.stringify(message));
                 client.end();
             });
         });
@@ -91,20 +91,20 @@ describe('app', function () {
         it("should support server and client two-way pub/sub ", function (done) {
             var d = s.donner(2, done);
 
-            this.app.route('/foo/:id/bar', function (req, res) {
+            this.app.route('$foo/:id/bar', function (req, res) {
                 var id = req.params.id;
                 res.publish(path.join(req.topic, 'reply'), 'ok' + id);
                 d();
             });
 
             s.buildClient(d, this.server, function (client) {
-                client.subscribe('/foo/123/bar/reply');
+                client.subscribe('$foo/123/bar/reply');
                 client.on('message', function (topic, message) {
                     t.equal(message, 'ok123');
                     client.end();
                 });
 
-                client.publish('/foo/123/bar', 'hello');
+                client.publish('$foo/123/bar', 'hello');
             });
         });
     });

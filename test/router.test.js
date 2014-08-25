@@ -13,14 +13,14 @@ describe("router", function () {
             var d = s.donner(2, done);
             var router = new mors.Router();
 
-            router.route('/foo', function (req, res, next) {
-                t.equal(req.topic, '/foo');
+            router.route('$foo', function (req, res, next) {
+                t.equal(req.topic, '$foo');
                 next();
 
                 d();
             });
 
-            publish(router, '/foo', function (err) {
+            publish(router, '$foo', function (err) {
                 t.notOk(err);
                 d();
             });
@@ -37,13 +37,13 @@ describe("router", function () {
                 d();
             });
 
-            router.route('/foo', function (req, res, next) {
+            router.route('$foo', function (req, res, next) {
                 t.equal(req.foo, 'hello');
                 next();
                 d();
             });
 
-            publish(router, '/foo', function (err) {
+            publish(router, '$foo', function (err) {
                 t.notOk(err);
                 d();
             });
@@ -58,7 +58,7 @@ describe("router", function () {
                 next();
             });
 
-            router.route('/foo/bar', function (req, res, next) {
+            router.route('$foo/bar', function (req, res, next) {
                 t.equal(i++, 1);
                 next();
             });
@@ -68,7 +68,7 @@ describe("router", function () {
                 next();
             });
 
-            publish(router, '/foo/bar', function (err) {
+            publish(router, '$foo/bar', function (err) {
                 t.notOk(err);
                 done();
             });
@@ -77,13 +77,13 @@ describe("router", function () {
         it('should parse and pass params to handler', function (done) {
             var router = new mors.Router();
 
-            router.route('/foo/:id/bar/*', function (req, res) {
+            router.route('$foo/:id/bar/*', function (req, res) {
                 t.equal(req.params.id, '123');
-                t.equal(req.topic, '/foo/123/bar/baz');
+                t.equal(req.topic, '$foo/123/bar/baz');
                 req.next();
             });
 
-            publish(router, '/foo/123/bar/baz', function (err) {
+            publish(router, '$foo/123/bar/baz', function (err) {
                 t.notOk(err);
                 done();
             });
@@ -93,10 +93,10 @@ describe("router", function () {
             var router = new mors.Router();
 
             router.route('*', function (req) {
-                t.equal('/foo/123/bar/baz', req.topic);
+                t.equal('$foo/123/bar/baz', req.topic);
                 req.next();
             });
-            publish(router, '/foo/123/bar/baz', function (err) {
+            publish(router, '$foo/123/bar/baz', function (err) {
                 t.notOk(err);
                 done();
             });
