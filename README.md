@@ -140,9 +140,6 @@ The `qos` of the request packet.
 The `retain` of the request packet.
 
 ## Response
-### res.packet
-Set response mqtt `packet`.
-
 ### res.topic
 Set response `topic`.
 
@@ -155,16 +152,15 @@ Set response `qos`
 ### res.retain
 Set response `retain`
 
-### res.publish([topic | message | callback], [message | callback], [callback])
-Publish a response
+### res.end([message])
+Publish a message if topic specified and end this response. The method, `response.end()`, MUST be called on each response.
+
+### res.publish([topic], [message])
+Publish a response with specified topic and message and end this response.
 
 ```js
-res.topic('$foo/reply').payload('hello').publish();
-res.topic('$foo/reply').payload('hello').publish(cb);
-res.topic('$foo/reply').publish('hello');
-res.topic('$foo/reply').publish('hello', cb);
-res.publish('$foo/reply', 'hello');
-res.publish('$foo/reply', 'hello', cb);
+res.topic('$foo/bar').payload('hello').publish();
+res.publish('$foo/bar', 'hello');
 ```
 
 ## Router

@@ -12,15 +12,28 @@ function testPublish(args, expected) {
     t.deepEqual(res._packet, expected);
 }
 
+function response() {
+    var res = new Response(mocks.client());
+    res.expect = function (packet) {
+        res.end();
+        t.deepEqual(res._packet, packet);
+    };
+    return res;
+}
+
 describe('response', function () {
 
-    it('#publish', function (done) {
-        var d = s.donner(3, done);
+    it('#end', function () {
+        response().expect({});
+        response().topic('/foo').expect({topic: '/foo'});
+        response().topic('/foo').payload('hello').expect({topic: '/foo', payload: 'hello'});
+    });
+
+    it('#publish', function () {
         testPublish([], {});
-        testPublish([d], {});
-        testPublish(['hello'], {payload: 'hello'});
-        testPublish(['hello', d], {payload: 'hello'});
+        testPublish(['/foo'], {topic: '/foo'});
         testPublish(['/foo', 'hello'], {topic: '/foo', payload: 'hello'});
-        testPublish(['/foo', 'hello', d], {topic: '/foo', payload: 'hello'});
-    })
+    });
+
+
 });
