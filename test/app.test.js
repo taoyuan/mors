@@ -93,7 +93,7 @@ describe('app', function () {
 
             this.app.route('$foo/:id/bar', function (req, res) {
                 var id = req.params.id;
-                res.publish(path.join(req.topic, 'reply'), 'ok' + id);
+                res.topic(path.join(req.topic, 'reply')).publish('ok' + id);
                 d();
             });
 

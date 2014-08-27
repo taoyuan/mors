@@ -153,15 +153,12 @@ Set response `qos`
 ### res.retain
 Set response `retain`
 
-### res.end([message])
-Publish a message if topic specified and end this response. The method, `response.end()`, MUST be called on each response.
-
-### res.publish([topic], [message])
-Publish a response with specified topic and message and end this response.
+### res.publish([message], [callback])
+Publish a response with the message.
 
 ```js
-res.topic('$foo/bar').payload('hello').publish();
-res.publish('$foo/bar', 'hello');
+res.topic('$foo/bar').publish('hello');
+res.topic('$foo/bar').publish('hello', cb);
 ```
 
 ## Router
