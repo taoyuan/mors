@@ -101,9 +101,6 @@ app.route('/events')
 })
 ```
 
-### app.route(path, callback)
-Now this is treated equally, and behave just like middleware.
-
 ### app.authorizer
 Set `authorizer` for authenticating and authorizing the clients. The `authorizer` include three methods:
 
