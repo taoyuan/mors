@@ -74,6 +74,33 @@ app.use(function(req, res, next){
 app.listen(9191);
 ```
 
+### app.VERB(path, [callback...], callback)
+The app.VERB() methods provide the routing functionality in Express, where VERB is one of the PUB/SUB verbs 
+(such as app.post()). Multiple callbacks may be given; all are treated equally, and behave just like middleware.
+
+### app.all(path, [callback...], callback)
+This method functions just like the app.VERB() methods, however it matches all PUB/SUB verbs.
+
+### app.route(path)
+Returns an instance of a single route, which can then be used to handle PUB/SUB verbs with optional middleware. 
+Using app.route() is a recommended approach for avoiding duplicate route names (and thus typo errors).
+
+```js
+var app = mors();
+
+app.route('/events')
+.all(function(req, res, next) {
+  // runs for all PUB/SUB verbs first
+  // think of it as route specific middleware!
+})
+.subscribe(function(req, res, next) {
+  // on subscribe
+})
+.publish(function(req, res, next) {
+  // maybe add a new event...
+})
+```
+
 ### app.route(path, callback)
 Now this is treated equally, and behave just like middleware.
 
