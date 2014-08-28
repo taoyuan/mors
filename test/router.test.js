@@ -7,13 +7,37 @@ var t = s.t;
 
 describe("router", function () {
 
-    describe("#handle", function () {
+    describe("handle subscribe request", function () {
+
+        it('should work', function (done) {
+            var d = s.donner(2, done);
+            var router = new mors.Router();
+
+            router.subscribe('$foo', function (req, res, next) {
+                t.equal(req.topic, '$foo');
+                next();
+
+                d();
+            });
+            router.publish('$foo', function (req, res, next) {
+                t.fail();
+            });
+
+            subscribe(router, '$foo', function (err) {
+                t.notOk(err);
+                d();
+            });
+        });
+
+    });
+
+    describe("handle publish request", function () {
 
         it("should be route()able", function (done) {
             var d = s.donner(2, done);
             var router = new mors.Router();
 
-            router.route('$foo', function (req, res, next) {
+            router.publish('$foo', function (req, res, next) {
                 t.equal(req.topic, '$foo');
                 next();
 
@@ -37,7 +61,7 @@ describe("router", function () {
                 d();
             });
 
-            router.route('$foo', function (req, res, next) {
+            router.publish('$foo', function (req, res, next) {
                 t.equal(req.foo, 'hello');
                 next();
                 d();
@@ -58,7 +82,7 @@ describe("router", function () {
                 next();
             });
 
-            router.route('$foo/bar', function (req, res, next) {
+            router.publish('$foo/bar', function (req, res, next) {
                 t.equal(i++, 1);
                 next();
             });
@@ -77,7 +101,7 @@ describe("router", function () {
         it('should parse and pass params to handler', function (done) {
             var router = new mors.Router();
 
-            router.route('$foo/:id/bar/*', function (req, res) {
+            router.publish('$foo/:id/bar/*', function (req, res) {
                 t.equal(req.params.id, '123');
                 t.equal(req.topic, '$foo/123/bar/baz');
                 req.next();
@@ -92,7 +116,7 @@ describe("router", function () {
         it("should handle all '*' topic", function (done) {
             var router = new mors.Router();
 
-            router.route('*', function (req) {
+            router.publish('*', function (req) {
                 t.equal('$foo/123/bar/baz', req.topic);
                 req.next();
             });
@@ -101,9 +125,31 @@ describe("router", function () {
                 done();
             });
         });
+
+        it('should route multi callback', function (done) {
+            var router = new mors.Router();
+            var flag = false;
+            router.publish('*', function (req) {
+                t.equal('$foo', req.topic);
+                req.next();
+            }, function (req) {
+                flag = true;
+                req.next();
+            });
+            publish(router, '$foo', function (err) {
+                t.notOk(err);
+                t.ok(flag);
+                done();
+            });
+        });
     });
 
 });
+
+function subscribe(router, topic, cb) {
+    var client = mocks.client();
+    router.handle(mors.Request.subscribe(client, topic), mors.Response(client), cb);
+}
 
 function publish(router, topic, message, opts, cb) {
     if (typeof opts === 'function') {
@@ -120,5 +166,5 @@ function publish(router, topic, message, opts, cb) {
     }
     message = message || '';
     var client = mocks.client();
-    router.handle(mors.Request(client, s.buildPacket(topic, message, opts)), mors.Response(client), cb);
+    router.handle(mors.Request.publish(client, s.buildPacket(topic, message, opts)), mors.Response(client), cb);
 }

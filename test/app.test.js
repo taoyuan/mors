@@ -47,7 +47,6 @@ describe('app', function () {
                 t.equal(req.app, app);
 
                 t.ok(req.client);
-                t.ok(req.packet);
                 t.equal(req.topic, '$foo');
                 t.equal(req.payload, 'hello');
 
@@ -74,7 +73,7 @@ describe('app', function () {
 
             var message = {"data": "hello"};
 
-            this.app.route('$foo/:fooId/bar/:barId', function (req, res) {
+            this.app.publish('$foo/:fooId/bar/:barId', function (req, res) {
                 var params = req.params;
                 t.equal(params.fooId, 123);
                 t.equal(params.barId, 456);
@@ -91,7 +90,7 @@ describe('app', function () {
         it("should support server and client two-way pub/sub ", function (done) {
             var d = s.donner(2, done);
 
-            this.app.route('$foo/:id/bar', function (req, res) {
+            this.app.publish('$foo/:id/bar', function (req, res) {
                 var id = req.params.id;
                 res.topic(path.join(req.topic, 'reply')).publish('ok' + id);
                 d();

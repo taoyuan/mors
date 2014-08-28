@@ -46,7 +46,7 @@ describe('auth', function () {
 
         it("should default the authorizePublish param to **", function(done) {
             var d = s.donner(2, done);
-            app.route('/topic', function (req, res) {
+            app.publish('/topic', function (req, res) {
                 d();
             });
 
@@ -60,7 +60,7 @@ describe('auth', function () {
 
         it("it should authorize a publish based on a pattern", function(done) {
             var d = s.donner(2, done);
-            app.route('/topic/other', function (req, res) {
+            app.publish('/topic/other', function (req, res) {
                 d();
             });
 
