@@ -62,10 +62,9 @@ describe('app', function () {
         });
     });
 
-    describe('pubsub', function () {
+    describe('pub/sub', function () {
 
         beforeEach(s.setup());
-
         afterEach(s.teardown());
 
         it("should route work when client publish", function (done) {
