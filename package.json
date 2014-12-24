@@ -1,6 +1,6 @@
 {
   "name": "mors",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Express inspired mqtt development framework based on mosca for node",
   "main": "index.js",
   "scripts": {
@@ -22,16 +22,16 @@
     "express"
   ],
   "dependencies": {
-    "debug": "^1.0.4",
+    "debug": "^2.1.0",
     "lodash": "^2.4.1",
-    "mosca": "^0.24.0",
-    "routes": "^1.2.0"
+    "mosca": "^0.26.2",
+    "routes": "^2.0.0"
   },
   "devDependencies": {
-    "bunyan": "^1.0.0",
-    "chai": "^1.9.1",
+    "bunyan": "^1.2.3",
+    "chai": "^1.10.0",
     "crypto": "^0.0.3",
-    "mocha": "^1.21.4",
-    "mqtt": "^0.3.11"
+    "mocha": "^2.1.0",
+    "mqtt": "^0.3.13"
   }
 }
