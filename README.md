@@ -195,7 +195,7 @@ Middleware is like a plumbing pipe, requests start at the first middleware you d
 Currently this is treated equally, and behave just like use.
 
 ## Middleware
-_(Coming soon)_
+* [mors-payload](https://github.com/taoyuan/mors-payload) A mors payload parsing middleware
 
 ## Links
 
