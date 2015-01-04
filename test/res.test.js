@@ -21,6 +21,10 @@ describe('response', function () {
         response().topic('/foo').expect({topic: '/foo'});
         response().topic('/foo').publish().expect({topic: '/foo', payload: ''});
         response().topic('/foo').publish('hello').expect({topic: '/foo', payload: 'hello'});
+
+        var message = {message: "hello"};
+        response().topic('/foo').json(message).expect({topic: '/foo', payload: JSON.stringify(message)});
+        response().topic('/foo').publish(message).expect({topic: '/foo', payload: JSON.stringify(message)});
     });
 
 });
