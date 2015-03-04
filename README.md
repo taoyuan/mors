@@ -27,7 +27,7 @@ $ npm install mors
 * Full features from [mosca](https://github.com/mcollina/mosca)
 * Express style usage
 * Usable inside ANY other node.js app
-* Supports node v0.10
+* Supports node v0.10 ~ 0.12
 
 ## Application
 ### settings
