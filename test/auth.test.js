@@ -20,8 +20,8 @@ describe('auth', function () {
 
         it("it should not authenticate an unknown user", function(done) {
             var client = s.buildClient(this.server);
-            client.on('error', function (err) {
-                t.include(err.message, 'Not authorized');
+            client.on('close', function (err) {
+                t.include(err.message, 'connect ECONNREFUSED');
                 done();
             });
         });

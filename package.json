@@ -24,7 +24,7 @@
   "dependencies": {
     "debug": "^2.1.2",
     "lodash": "^3.3.1",
-    "mosca": "^0.28.1",
+    "mosca": "^0.32.0",
     "routes": "^2.0.0"
   },
   "devDependencies": {
