@@ -21,6 +21,7 @@ describe('auth', function () {
         it("it should not authenticate an unknown user", function(done) {
             var client = s.buildClient(this.server);
             client.on('close', function (err) {
+                client.end(); // avoid reconnect
                 t.include(err.message, 'connect ECONNREFUSED');
                 done();
             });
