@@ -1,7 +1,10 @@
 "use strict";
 
 var mqtt = require('mqtt');
-var client = mqtt.createClient(9191);
+var client = mqtt.connect({
+    host: 'localhost',
+    port: 9191
+});
 
 client.publish('/hello/me', 'hello_me', {qos: 1}, function () {
     console.log("publish done with qos=1")

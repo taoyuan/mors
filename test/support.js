@@ -84,8 +84,12 @@ exports.buildClient = function buildClient(done, server, opts, callback) {
     }
 
     opts = _.defaults(opts, buildOpts());
+    opts = _.defaults(opts, {
+        host: 'localhost',
+        port: server.opts.port
+    });
 
-    var client = mqtt.createClient(server.opts.port, opts);
+    var client = mqtt.connect(opts);
 
     function end(err) {
         done(err ? err : null);
