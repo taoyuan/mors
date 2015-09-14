@@ -1,6 +1,6 @@
 {
   "name": "mors",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Express inspired mqtt development framework based on mosca for node",
   "main": "index.js",
   "scripts": {
