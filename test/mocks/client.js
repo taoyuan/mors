@@ -1,9 +1,9 @@
 "use strict";
 
-var server = require('./server');
+const server = require('./server');
 
 module.exports = function () {
-    return {
-        server: server()
-    }
+	return {
+		server: server()
+	}
 };
