@@ -1,6 +1,6 @@
 "use strict";
 
-const mors = require('../');
+const mors = require('..');
 const s = require('./support');
 const t = s.t;
 

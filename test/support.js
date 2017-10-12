@@ -1,6 +1,6 @@
 "use strict";
 
-const mors = require('../');
+const mors = require('..');
 const chai = require('chai');
 chai.config.includeStack = true;
 const mqtt = require('mqtt');

@@ -1,6 +1,5 @@
 "use strict";
 
-// const mors = require('../');
 const Authorizer = require('mosca').Authorizer;
 const s = require('./support');
 const t = s.t;

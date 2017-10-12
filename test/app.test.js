@@ -1,6 +1,6 @@
 "use strict";
 
-const mors = require('../');
+const mors = require('..');
 const mosca = require('mosca');
 const path = require('path');
 const s = require('./support');

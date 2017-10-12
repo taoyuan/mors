@@ -3,11 +3,11 @@
 const mocks = require('./mocks');
 const s = require('./support');
 const t = s.t;
-const mors = require('../');
+const mors = require('..');
 const Response = mors.Response;
 
 function response() {
-	const res = new Response(mocks.client());
+	const res = new Response(mocks.Client.create());
 	res.expect = function (packet) {
 		t.deepEqual(res._packet, packet);
 	};

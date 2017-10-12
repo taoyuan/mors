@@ -1,4 +1,4 @@
 "use strict";
 
-exports.client = require('./client');
-exports.server = require('./server');
+exports.Client = require('./client');
+exports.Server = require('./server');

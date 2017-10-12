@@ -147,8 +147,8 @@ describe("router", function () {
 });
 
 function subscribe(router, topic, cb) {
-	const client = mocks.client();
-	router.handle(mors.Request.subscribe(client, topic), mors.Response(client), cb);
+	const client = mocks.Client.create();
+	router.handle(mors.Request.subscribe(client, topic), mors.Response.create(client), cb);
 }
 
 function publish(router, topic, message, opts, cb) {
@@ -165,6 +165,6 @@ function publish(router, topic, message, opts, cb) {
 		message = undefined;
 	}
 	message = message || '';
-	const client = mocks.client();
-	router.handle(mors.Request.publish(client, s.buildPacket(topic, message, opts)), mors.Response(client), cb);
+	const client = mocks.Client.create();
+	router.handle(mors.Request.publish(client, s.buildPacket(topic, message, opts)), mors.Response.create(client), cb);
 }
