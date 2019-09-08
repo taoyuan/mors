@@ -2,7 +2,7 @@ Mors
 ====
 [![NPM Version](https://img.shields.io/npm/v/mors.svg?style=flat)](https://www.npmjs.org/package/mors)
 [![Build Status](http://img.shields.io/travis/taoyuan/mors.svg?style=flat)](https://travis-ci.org/taoyuan/mors)
-[![Dependencies](https://img.shields.io/david/taoyuan/mors.svg?style=flat)](https://david-dm.org/taoyuan/mors)
+[![Dependencies](https://img.shields.io/david/taoyuan/mors.svg?style=flat)](https://david-dm.org/taoyuan/mors) [![Greenkeeper badge](https://badges.greenkeeper.io/taoyuan/mors.svg)](https://greenkeeper.io/)
 
 > Express inspired mqtt development framework based on [mosca](https://github.com/mcollina/mosca) for [node](nodejs.org).
 
